@@ -1,0 +1,425 @@
+/* ==========================================================================
+   OVERSEER — Communications (style rapport militaire, PAS de bulles)
+   ========================================================================== */
+
+.comms-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+}
+
+.comms-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.comms-header h1 {
+  margin: 0;
+}
+
+.comms-header__meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: flex;
+  gap: 14px;
+}
+
+.comms-header__crypto {
+  color: var(--accent-green);
+}
+
+.comms-header__connect-row {
+  display: flex;
+  gap: 8px;
+}
+
+.comms-header__input {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  outline: none;
+  width: 220px;
+}
+
+.comms-header__input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.comms-magic {
+  padding: 12px 14px;
+}
+
+.comms-magic__title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-cyan);
+  margin-bottom: 10px;
+}
+
+.comms-magic__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .comms-magic__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.comms-magic__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.comms-magic__hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0 0 8px;
+}
+
+.comms-magic__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.comms-magic__link {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.comms-magic__result {
+  margin-top: 10px;
+}
+
+.comms-header__btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  background: var(--bg-panel);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.comms-header__btn:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-void);
+}
+
+.comms-header__btn--ghost {
+  color: var(--text-secondary);
+  border-color: var(--border-active);
+}
+
+.comms-header__btn--ghost:hover {
+  background: transparent;
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+/* ==========================================================================
+   Body : 30/70
+   ========================================================================== */
+
+.comms-body {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  gap: 14px;
+  min-height: 0;
+}
+
+/* --- Contact list --- */
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.contact-list__heading {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.contact-list__items {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.contact-list__empty {
+  padding: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.contact-item {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 10px;
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border-dim);
+  cursor: pointer;
+  align-items: baseline;
+  transition: background 0.12s;
+}
+
+.contact-item:hover {
+  background: var(--bg-elevated);
+}
+
+.contact-item.is-selected {
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent-cyan);
+  padding-left: 8px;
+}
+
+.contact-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.contact-item__dot--online {
+  background: var(--accent-green);
+  box-shadow: 0 0 5px rgba(26, 158, 92, 0.7);
+}
+
+.contact-item__dot--offline {
+  background: transparent;
+  border: 1px solid var(--text-muted);
+}
+
+.contact-item__main {
+  min-width: 0;
+}
+
+.contact-item__id {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-white);
+}
+
+.contact-item__meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* --- Message thread (rapport militaire) --- */
+
+.thread {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.thread__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-active);
+  margin-bottom: 10px;
+}
+
+.thread__title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-white);
+  margin: 0;
+}
+
+.thread__meta {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.thread__messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+.thread__empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 20%;
+}
+
+/* --- Message block (report-style) --- */
+
+.message {
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  background: var(--bg-panel);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.message.is-local {
+  border-color: var(--accent-cyan);
+  background: rgba(8, 145, 178, 0.05);
+}
+
+.message.is-broadcast {
+  border-color: var(--accent-red-glow);
+  background: rgba(231, 76, 60, 0.07);
+  color: var(--accent-red-glow);
+  white-space: pre-line;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.message__header {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.message__from {
+  color: var(--accent-cyan);
+}
+
+.message__classif {
+  margin-left: auto;
+  color: var(--accent-amber);
+}
+
+.message__body {
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* --- Send input --- */
+
+.thread__send {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid var(--border-active);
+  padding-top: 10px;
+}
+
+.thread__send-prompt {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 0.9rem;
+}
+
+.thread__send-input {
+  flex: 1 1 auto;
+  background: #050606;
+  color: var(--accent-green);
+  caret-color: var(--accent-green);
+  border: 1px solid var(--border-active);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.thread__send-input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.thread__send-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  background: var(--accent-cyan);
+  color: var(--bg-void);
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.thread__send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.thread__crypto-hint {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-green);
+  text-transform: uppercase;
+  margin-top: 4px;
+  text-align: right;
+}

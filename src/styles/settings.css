@@ -1,0 +1,216 @@
+/* ==========================================================================
+   OVERSEER — Settings page
+   ========================================================================== */
+
+.settings-page {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.settings-page h1 {
+  margin: 0 0 6px;
+}
+
+.settings-page__sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.settings-section {
+  margin-bottom: 18px;
+}
+
+.settings-section__title {
+  font-family: var(--font-display);
+  color: var(--accent-cyan);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 6px;
+}
+
+.settings-section__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-field--wide {
+  grid-column: 1 / -1;
+}
+
+.settings-field__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.settings-field__hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.settings-input,
+.settings-select {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 7px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.settings-input:focus,
+.settings-select:focus {
+  border-color: var(--accent-cyan);
+}
+
+/* --- Toggle switch --- */
+
+.settings-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-toggle__track {
+  position: relative;
+  width: 38px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-active);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.settings-toggle__thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform 0.18s, background 0.18s;
+}
+
+.settings-toggle.is-on .settings-toggle__track {
+  background: rgba(8, 145, 178, 0.2);
+  border-color: var(--accent-cyan);
+}
+
+.settings-toggle.is-on .settings-toggle__thumb {
+  transform: translateX(20px);
+  background: var(--accent-cyan);
+}
+
+.settings-toggle__label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+}
+
+/* --- Slider --- */
+
+.settings-slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-slider__input {
+  flex: 1 1 auto;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border-active);
+  border-radius: 2px;
+  outline: none;
+}
+
+.settings-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.settings-slider__input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  border: 0;
+  cursor: pointer;
+}
+
+.settings-slider__value {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-cyan);
+  min-width: 42px;
+  text-align: right;
+}
+
+.settings-footer {
+  margin-top: 16px;
+  border-top: 1px solid var(--border-dim);
+  padding-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.settings-reset {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--accent-red);
+  border: 1px solid var(--accent-red);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.settings-reset:hover {
+  background: var(--accent-red);
+  color: var(--accent-white);
+}
+
+.settings-saved-hint {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-green);
+  text-transform: uppercase;
+  margin-right: auto;
+  align-self: center;
+}

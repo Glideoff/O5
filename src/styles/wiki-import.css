@@ -1,0 +1,211 @@
+.wiki-import-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99980;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.wiki-import-modal {
+  width: min(720px, 100%);
+  max-height: min(85vh, 720px);
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto auto;
+  gap: 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-active);
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+}
+
+.wiki-import-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.wiki-import-modal__header h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-white);
+}
+
+.wiki-import-modal__sub {
+  margin: 4px 0 0;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.wiki-import-modal__close {
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.wiki-import-modal__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.wiki-import-modal__search {
+  flex: 1 1 180px;
+  min-width: 140px;
+  padding: 6px 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+}
+
+.wiki-import-modal__manual {
+  display: flex;
+  gap: 4px;
+}
+
+.wiki-import-modal__manual input {
+  width: 110px;
+  padding: 6px 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+}
+
+.wiki-import-modal__toolbar button {
+  padding: 6px 10px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.wiki-import-modal__toolbar button:hover:not(:disabled) {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+}
+
+.wiki-import-modal__toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wiki-import-modal__error {
+  color: var(--accent-red-glow);
+  font-size: 0.72rem;
+}
+
+.wiki-import-modal__selection {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.wiki-import-modal__list {
+  overflow-y: auto;
+  border: 1px solid var(--border-dim);
+  background: var(--bg-void);
+  min-height: 200px;
+}
+
+.wiki-import-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border-dim);
+  cursor: pointer;
+  font-size: 0.74rem;
+}
+
+.wiki-import-row:hover {
+  background: var(--bg-panel);
+}
+
+.wiki-import-row--checked {
+  background: rgba(204, 0, 0, 0.08);
+}
+
+.wiki-import-row--exists {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.wiki-import-row__id {
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+}
+
+.wiki-import-row__badge {
+  margin-left: auto;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.wiki-import-modal__empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.wiki-import-modal__results {
+  font-size: 0.7rem;
+  color: var(--accent-green);
+  border-top: 1px solid var(--border-dim);
+  padding-top: 8px;
+}
+
+.wiki-import-modal__fail-line {
+  color: var(--accent-red-glow);
+  margin-top: 4px;
+}
+
+.wiki-import-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.wiki-import-modal__footer button {
+  padding: 8px 14px;
+  border: 1px solid var(--border-dim);
+  background: var(--bg-panel);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.wiki-import-modal__import {
+  border-color: var(--accent-red-glow) !important;
+  color: var(--accent-white) !important;
+}
+
+.wiki-import-modal__import:hover:not(:disabled) {
+  background: rgba(204, 0, 0, 0.15);
+}
+
+.wiki-import-modal__import:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

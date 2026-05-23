@@ -1,0 +1,149 @@
+name: OVERSEER — Release builds
+
+# Déclenché manuellement OU par push d'un tag vX.Y.Z
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: ""
+            label: windows-x64
+            bundle_glob: |
+              src-tauri/target/release/bundle/**/*.msi
+              src-tauri/target/release/bundle/**/*.exe
+
+          - platform: macos-latest
+            args: "--target aarch64-apple-darwin"
+            label: macos-arm64
+            bundle_glob: |
+              src-tauri/target/aarch64-apple-darwin/release/bundle/**/*.dmg
+              src-tauri/target/aarch64-apple-darwin/release/bundle/**/*.app
+
+          - platform: macos-latest
+            args: "--target x86_64-apple-darwin"
+            label: macos-intel
+            bundle_glob: |
+              src-tauri/target/x86_64-apple-darwin/release/bundle/**/*.dmg
+              src-tauri/target/x86_64-apple-darwin/release/bundle/**/*.app
+
+          - platform: ubuntu-22.04
+            args: ""
+            label: linux-x64
+            bundle_glob: |
+              src-tauri/target/release/bundle/**/*.deb
+              src-tauri/target/release/bundle/**/*.AppImage
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Rust (stable + targets macOS)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Cache Rust
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev
+
+      - name: Install pnpm dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build & bundle Tauri
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          # Signing macOS (optionnel) — secrets dans Settings → Actions
+          # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          # APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: "OVERSEER ${{ github.ref_name }}"
+          releaseBody: |
+            ## OVERSEER ${{ github.ref_name }}
+
+            ### Windows
+            - `OVERSEER_*_x64-setup.exe` — installateur NSIS (recommandé)
+            - `OVERSEER_*_x64_en-US.msi` — installateur MSI (entreprise)
+
+            ### macOS
+            - `OVERSEER_*_aarch64.dmg` — Apple Silicon (M1/M2/M3…)
+            - `OVERSEER_*_x64.dmg` — Intel
+
+            Sans certificat Apple : clic droit sur l'app → **Ouvrir** la première fois.
+
+            ### Linux
+            - `.deb` (Debian/Ubuntu) ou `.AppImage` (universel)
+
+            _Document classifié — Niveau O5 — Secure. Contain. Protect._
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+      - name: Generate latest.json (Windows, tag release)
+        if: matrix.platform == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
+        run: |
+          node scripts/generate-latest-json.mjs \
+            --version "${GITHUB_REF_NAME#v}" \
+            --base-url "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}"
+
+      - name: Upload latest.json to release
+        if: matrix.platform == 'windows-latest' && startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" latest.json --clobber
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: OVERSEER-${{ matrix.label }}-${{ github.ref_name }}
+          path: |
+            ${{ matrix.bundle_glob }}
+            latest.json
+          if-no-files-found: warn
+          retention-days: 30

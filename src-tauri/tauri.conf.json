@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "OVERSEER",
+  "version": "0.3.0",
+  "identifier": "com.overseer.foundation",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "OVERSEER",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 700,
+        "fullscreen": false,
+        "resizable": true,
+        "decorations": false,
+        "transparent": true,
+        "alwaysOnTop": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "category": "Utility",
+    "shortDescription": "O5 Command Interface — Secure. Contain. Protect.",
+    "longDescription": "OVERSEER est le poste de commandement O5 de la SCP Foundation : tableau de bord d'incidents, registre SCP, conseil O5 avec IA locale (Ollama), communications chiffrées AES-256 et bien plus encore. Document classifié — Niveau O5.",
+    "copyright": "© 2026 — OVERSEER · CONFIDENTIEL",
+    "publisher": "OVERSEER Foundation",
+    "macOS": {
+      "minimumSystemVersion": "10.15",
+      "exceptionDomain": "localhost",
+      "signingIdentity": null,
+      "providerShortName": null,
+      "entitlements": null,
+      "dmg": {
+        "appPosition": { "x": 180, "y": 170 },
+        "applicationFolderPosition": { "x": 480, "y": 170 },
+        "windowSize": { "width": 660, "height": 400 }
+      }
+    },
+    "windows": {
+      "wix": {
+        "language": "fr-FR"
+      },
+      "nsis": {
+        "languages": ["French"],
+        "displayLanguageSelector": false,
+        "installerIcon": "icons/icon.ico"
+      }
+    },
+    "linux": {
+      "deb": {
+        "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0"]
+      },
+      "appimage": {
+        "bundleMediaFramework": true
+      }
+    },
+    "createUpdaterArtifacts": false
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "RWSEpBiHqDwBmSve/oCW2smoAPzZBBNnQKwP/v9mJRip31LpDvSPpsT",
+      "endpoints": [
+        "https://github.com/Glideoff/O5/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  }
+}

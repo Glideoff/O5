@@ -1,0 +1,40 @@
+{
+  "name": "o5",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "build:win": "tauri build",
+    "build:release": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1",
+    "build:win:desktop": "pnpm run build:release",
+    "build:mac:arm": "tauri build --target aarch64-apple-darwin",
+    "build:mac:intel": "tauri build --target x86_64-apple-darwin",
+    "build:mac:universal": "tauri build --target universal-apple-darwin"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-notification": "~2",
+    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-process": "~2",
+    "@tauri-apps/plugin-sql": "~2",
+    "@tauri-apps/plugin-updater": "~2",
+    "date-fns": "^4.3.0",
+    "lucide-react": "^1.16.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.15.1",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  }
+}

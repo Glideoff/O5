@@ -1,0 +1,278 @@
+/* ==========================================================================
+   OVERSEER — Boot Sequence (style SCIPNET / terminal lockout)
+   ========================================================================== */
+
+.boot-root {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  color: var(--accent-red-glow);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  z-index: 99999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  animation: boot-flicker 4s infinite;
+}
+
+.boot-root.is-fading {
+  animation: boot-fadeout 0.5s ease-out forwards;
+}
+
+/* Fond : logs terminal fantômes */
+.boot-root__bg-logs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.12;
+  font-size: 0.62rem;
+  line-height: 1.35;
+  color: var(--accent-red);
+  padding: 20px;
+  white-space: pre-wrap;
+  user-select: none;
+}
+
+.boot-frame {
+  position: relative;
+  z-index: 3;
+  width: min(640px, 92vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.boot-frame__bracket {
+  width: 100%;
+  height: 28px;
+  position: relative;
+}
+
+.boot-frame__bracket::before,
+.boot-frame__bracket::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--accent-red-glow);
+  box-shadow: var(--scipnet-glow);
+}
+
+.boot-frame__bracket--top::before {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.boot-frame__bracket--top::after {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+}
+
+.boot-frame__bracket--bottom::before {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 2px 2px;
+}
+
+.boot-frame__bracket--bottom::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+.boot-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.boot-header__terminal {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--accent-white);
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  text-shadow: none;
+}
+
+.boot-header__foundation {
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.boot-logo-wrap {
+  margin: 8px 0 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.boot-logo-wrap .scp-logo {
+  filter: drop-shadow(0 0 16px rgba(255, 40, 40, 0.9))
+    drop-shadow(0 0 40px rgba(255, 20, 20, 0.45));
+  animation: boot-logo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes boot-logo-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.02);
+  }
+}
+
+.boot-lockout-bar {
+  width: 100%;
+  background: var(--accent-red-glow);
+  color: #000000;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-align: center;
+  padding: 10px 16px;
+  text-transform: uppercase;
+  box-shadow: var(--scipnet-glow-strong);
+  margin-bottom: 14px;
+}
+
+.boot-console {
+  width: 100%;
+  min-height: 200px;
+  padding: 0 12px 8px;
+  text-align: left;
+}
+
+.boot-line {
+  white-space: pre-wrap;
+  color: var(--text-primary);
+}
+
+.boot-line--header {
+  color: var(--accent-white);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+
+.boot-line--separator {
+  color: var(--accent-red-glow);
+  opacity: 0.7;
+}
+
+.boot-line--ok {
+  color: var(--text-primary);
+}
+
+.boot-line--ok::after {
+  content: none;
+}
+
+.boot-line--warn {
+  color: var(--accent-amber);
+}
+
+.boot-line--error {
+  color: var(--accent-red-glow);
+  text-shadow: var(--scipnet-glow);
+}
+
+.boot-line--welcome {
+  color: var(--accent-white);
+  margin-top: 8px;
+  text-shadow: var(--scipnet-glow);
+}
+
+.boot-line--continue {
+  color: var(--text-secondary);
+  margin-top: 16px;
+  letter-spacing: 0.18em;
+  text-align: center;
+  width: 100%;
+}
+
+.boot-cursor {
+  display: inline-block;
+  color: var(--accent-red-glow);
+  text-shadow: var(--scipnet-glow);
+  animation: boot-blink 0.9s step-end infinite;
+}
+
+.boot-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 30, 30, 0.06) 0px,
+    rgba(255, 30, 30, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 1;
+}
+
+.boot-root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.85) 100%);
+  z-index: 2;
+}
+
+@keyframes boot-blink {
+  0%,
+  100% {
+    visibility: visible;
+  }
+  50% {
+    visibility: hidden;
+  }
+}
+
+@keyframes boot-fadeout {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes boot-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  4% {
+    opacity: 0.92;
+  }
+  6% {
+    opacity: 1;
+  }
+  73% {
+    opacity: 0.96;
+  }
+  78% {
+    opacity: 1;
+  }
+}

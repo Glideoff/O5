@@ -1,0 +1,396 @@
+/* ==========================================================================
+   OVERSEER — Système institutionnel classifié
+   ========================================================================== */
+
+/* --- Bandeaux classification ---------------------------------------------- */
+
+.classification-banner {
+  flex-shrink: 0;
+  width: 100%;
+  background: #cc0000;
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px 8px;
+  line-height: 1.2;
+  z-index: 100;
+}
+
+.classification-banner--top {
+  grid-area: banner-top;
+}
+
+.classification-banner--bottom {
+  grid-area: banner-bottom;
+}
+
+/* --- Barre de session ----------------------------------------------------- */
+
+.session-bar {
+  grid-area: sessionbar;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  min-height: 28px;
+  padding: 4px 12px;
+  background: #0a0a0a;
+  color: #555555;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #1a1a1a;
+  z-index: 30;
+}
+
+.session-bar__sep {
+  color: #333333;
+}
+
+.session-bar__warn {
+  color: #666655;
+}
+
+.session-expired-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.session-expired-overlay__box {
+  border: 1px solid #cc0000;
+  padding: 28px 36px;
+  max-width: 480px;
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.session-expired-overlay__title {
+  color: #cc0000;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  margin: 0 0 12px;
+}
+
+.session-expired-overlay__body {
+  color: #8a8a7a;
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.session-expired-overlay__btn {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 8px 20px;
+  background: #1a1a1a;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  cursor: pointer;
+}
+
+.session-expired-overlay__btn:hover {
+  background: #cc0000;
+  color: #000;
+}
+
+/* --- Avertissement démarrage ---------------------------------------------- */
+
+.warning-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.warning-screen__frame {
+  max-width: 620px;
+  border: 1px solid #333333;
+  padding: 32px 40px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #ffffff;
+  text-align: center;
+}
+
+.warning-screen__line {
+  min-height: 1.4em;
+}
+
+/* --- En-tête document ----------------------------------------------------- */
+
+.doc-header {
+  margin-bottom: 16px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  color: #444444;
+  line-height: 1.65;
+}
+
+.doc-header__label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.doc-header__value {
+  color: #555555;
+}
+
+.doc-header__rule {
+  margin-top: 10px;
+  border-bottom: 1px dashed #333333;
+}
+
+/* --- Expurgation ---------------------------------------------------------- */
+
+.redacted--l1 {
+  display: inline-block;
+  background: #888888;
+  color: transparent;
+  user-select: none;
+  cursor: not-allowed;
+  padding: 0 0.35em;
+  position: relative;
+  font-size: 0.95em;
+}
+
+.redacted--l2 {
+  display: inline-block;
+  height: 1em;
+  background: #555555;
+  vertical-align: middle;
+  position: relative;
+  user-select: none;
+  cursor: not-allowed;
+}
+
+.redacted--l3 {
+  color: #8b0000;
+  font-style: italic;
+  user-select: none;
+}
+
+.redacted__tooltip,
+.redacted__popup {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 4px;
+  padding: 6px 8px;
+  background: #1a1a1a;
+  border: 1px solid #444444;
+  color: #aaaaaa;
+  font-size: 10px;
+  font-style: normal;
+  white-space: nowrap;
+  z-index: 50;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.redacted__popup {
+  white-space: normal;
+  max-width: 260px;
+}
+
+/* --- Panneau classifié + filigrane ---------------------------------------- */
+
+.classified-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.classified-panel__watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 52px;
+  font-weight: 700;
+  color: rgba(200, 0, 0, 0.04);
+  transform: rotate(-35deg);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.classified-panel__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Journal d'accès ------------------------------------------------------ */
+
+.access-log {
+  margin-top: auto;
+  padding: 10px 12px 8px;
+  border-top: 1px solid #1a1a1a;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 9px;
+  line-height: 1.45;
+  color: #555555;
+}
+
+.access-log__title {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #444444;
+  margin-bottom: 6px;
+}
+
+.access-log__scroll {
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.access-log__line {
+  margin-bottom: 3px;
+}
+
+.access-log__time {
+  color: #444444;
+}
+
+.access-log__user {
+  color: #666666;
+}
+
+.access-log__msg {
+  color: #555555;
+}
+
+.access-log__empty {
+  color: #333333;
+  font-style: italic;
+}
+
+/* --- Surveillance --------------------------------------------------------- */
+
+.surveillance-toast {
+  position: fixed;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99980;
+  padding: 8px 16px;
+  background: #0a0a0a;
+  border: 1px solid #444444;
+  color: #888888;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.idle-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99970;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.idle-overlay__box {
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  padding: 24px;
+}
+
+.idle-overlay__title {
+  color: #aaaaaa;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+}
+
+.idle-overlay__body {
+  color: #666666;
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.consultation-counter {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #444444;
+  white-space: nowrap;
+}
+
+/* --- Typographie institutionnelle ----------------------------------------- */
+
+.inst-body-text {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #8a8a7a;
+  margin: 0 0 0.75em;
+}
+
+.inst-section-title {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #555555;
+  margin: 0 0 8px;
+}
+
+.inst-section-title::before {
+  content: "■ ";
+}
+
+.inst-code,
+.inst-numeric {
+  font-family: "Courier New", Courier, monospace;
+  color: #c0c0b0;
+}
+
+.inst-urgent {
+  color: #cc0000;
+}
+
+.inst-footer-notice {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px dashed #2a2a2a;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 10px;
+  line-height: 1.65;
+  color: #444444;
+}
+
+.inst-audit-block {
+  opacity: 0.65;
+  pointer-events: none;
+  user-select: none;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  color: #555555;
+  line-height: 1.7;
+}
+
+.inst-audit-block__title {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: #444444;
+}

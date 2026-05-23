@@ -1,0 +1,264 @@
+/* ==========================================================================
+   OVERSEER — Design System institutionnel
+   ========================================================================== */
+
+:root {
+  --bg-void: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-panel: #0d0d0d;
+  --bg-elevated: #121212;
+
+  --border-dim: #1a1a1a;
+  --border-active: #2a2a2a;
+
+  --text-primary: #8a8a7a;
+  --text-secondary: #666660;
+  --text-muted: #444444;
+
+  --accent-red: #8b0000;
+  --accent-red-glow: #cc0000;
+  --accent-red-bright: #cc0000;
+  --accent-amber: #997755;
+  --accent-green: #5a6a5a;
+  --accent-cyan: #cc0000;
+  --accent-white: #c0c0b0;
+
+  --accent-primary: #cc0000;
+  --classif-red: #cc0000;
+
+  --font-mono: "Courier New", Courier, monospace;
+  --font-display: "Courier New", Courier, monospace;
+  --font-body: "Courier New", Courier, monospace;
+
+  --vignette-opacity: 0.35;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: #888877;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--accent-white);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--bg-void);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow: hidden;
+  -webkit-font-smoothing: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: #555555;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 0.6em;
+}
+
+h1::before,
+h2::before {
+  content: "■ ";
+}
+
+h1 {
+  font-size: 1.15rem;
+}
+
+h2 {
+  font-size: 0.95rem;
+}
+
+h3 {
+  font-size: 0.85rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+p {
+  margin: 0 0 0.75em;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  color: #c0c0b0;
+}
+
+pre {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  padding: 0.75rem;
+  overflow: auto;
+}
+
+::selection {
+  background: #333333;
+  color: #aaaaaa;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #333333;
+}
+
+.scp-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  border-radius: 0;
+  padding: 1rem;
+  position: relative;
+}
+
+.scp-panel--elevated {
+  background: var(--bg-elevated);
+}
+
+.scp-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.15em 0.5em;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  line-height: 1.2;
+}
+
+.scp-badge.safe {
+  color: var(--accent-green);
+}
+
+.scp-badge.euclid {
+  color: var(--accent-amber);
+}
+
+.scp-badge.keter {
+  color: var(--accent-red-glow);
+  border-color: var(--accent-red-glow);
+}
+
+.scp-badge.thaumiel {
+  color: #888888;
+}
+
+.scp-badge.apollyon {
+  color: var(--accent-red-glow);
+  background: #1a0000;
+}
+
+.redacted {
+  background-color: #888888;
+  color: transparent;
+  user-select: none;
+  padding: 0 0.2em;
+  cursor: not-allowed;
+}
+
+.classified {
+  border-left: 2px solid var(--accent-red-glow);
+  padding-left: 0.75rem;
+}
+
+.blink-cursor::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+  color: #555555;
+}
+
+.scp-logo {
+  display: block;
+  object-fit: contain;
+  filter: none;
+  opacity: 0.85;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    visibility: visible;
+  }
+  50% {
+    visibility: hidden;
+  }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  z-index: 9998;
+}
+
+body.no-scanlines::before {
+  display: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, var(--vignette-opacity)) 100%
+  );
+  z-index: 9999;
+}

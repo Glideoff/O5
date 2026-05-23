@@ -1,0 +1,540 @@
+/* ==========================================================================
+   OVERSEER — Registry SCP
+   Header : recherche + filtres + bouton + grid + detail panel
+   ========================================================================== */
+
+.registry-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+}
+
+.registry-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+
+.registry-header__title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.registry-header__title h1 {
+  margin: 0;
+}
+
+.registry-header__count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.registry-header__filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.registry-search {
+  flex: 0 0 220px;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  outline: none;
+}
+
+.registry-search:focus {
+  border-color: var(--accent-cyan);
+}
+
+.registry-select {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.registry-select:focus {
+  border-color: var(--accent-cyan);
+  outline: none;
+}
+
+.registry-header__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.registry-import-wiki {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.registry-import-wiki:hover:not(:disabled) {
+  background: rgba(204, 0, 0, 0.12);
+  border-color: var(--accent-red-glow);
+}
+
+.registry-import-wiki:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.registry-generate {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: var(--bg-panel);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.registry-generate:hover:not(:disabled) {
+  background: var(--accent-cyan);
+  color: var(--bg-void);
+}
+
+.registry-generate:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ==========================================================================
+   Body : 2fr grid / 1fr detail
+   ========================================================================== */
+
+.registry-body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 14px;
+  min-height: 0;
+}
+
+.registry-grid-wrapper {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.registry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  padding-right: 4px;
+}
+
+.registry-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+/* ==========================================================================
+   SCPCard
+   ========================================================================== */
+
+.scp-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+  border-left: 3px solid var(--text-muted);
+  border-radius: 4px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.2s;
+  position: relative;
+}
+
+.scp-card:hover {
+  background: var(--bg-elevated);
+}
+
+.scp-card.is-selected {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 1px var(--accent-cyan) inset;
+}
+
+.scp-card.is-new {
+  animation: card-pop-in 0.45s ease-out;
+}
+
+.scp-card--safe {
+  border-left-color: var(--accent-green);
+}
+.scp-card--safe:hover {
+  box-shadow: 0 0 12px rgba(26, 158, 92, 0.25);
+}
+
+.scp-card--euclide,
+.scp-card--euclid {
+  border-left-color: var(--accent-amber);
+}
+.scp-card--euclide:hover,
+.scp-card--euclid:hover {
+  box-shadow: 0 0 12px rgba(212, 160, 23, 0.25);
+}
+
+.scp-card--keter {
+  border-left-color: var(--accent-red-glow);
+}
+.scp-card--keter:hover {
+  box-shadow: 0 0 12px rgba(231, 76, 60, 0.3);
+}
+
+.scp-card--thaumiel {
+  border-left-color: var(--accent-cyan);
+}
+.scp-card--thaumiel:hover {
+  box-shadow: 0 0 12px rgba(8, 145, 178, 0.3);
+}
+
+.scp-card--apollyon {
+  border-left-color: var(--accent-white);
+}
+.scp-card--apollyon:hover {
+  box-shadow: 0 0 12px rgba(232, 234, 240, 0.3);
+}
+
+.scp-card__id {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.16em;
+  color: var(--accent-white);
+}
+
+.scp-card__name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.scp-card__meta {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.scp-card__meta-dot {
+  opacity: 0.4;
+}
+
+.scp-card__wiki-badge {
+  background: rgba(136, 136, 119, 0.25);
+  color: #888877;
+}
+
+.scp-card__ai-badge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  padding: 1px 5px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* --- Card placeholder pendant la génération IA ---------------------------- */
+
+.scp-card-skeleton {
+  background: var(--bg-panel);
+  border: 1px dashed var(--accent-cyan);
+  border-radius: 4px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   SCPDetail
+   ========================================================================== */
+
+.scp-detail-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.scp-detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  text-align: center;
+  padding: 24px;
+}
+
+.scp-detail__header {
+  border-bottom: 1px solid var(--border-active);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.scp-detail__title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.scp-detail__id {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.16em;
+  color: var(--accent-white);
+}
+
+.scp-detail__name {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.scp-detail__meta {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.scp-detail__section {
+  margin-top: 12px;
+}
+
+.scp-detail__section-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.scp-detail__section-body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  line-height: 1.55;
+  font-size: 0.86rem;
+}
+
+.scp-detail__actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-active);
+  padding-top: 12px;
+}
+
+.scp-detail__transfer {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.scp-detail__transfer:hover {
+  background: var(--accent-amber);
+  color: var(--bg-void);
+}
+
+.scp-detail__transfer-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.scp-detail__incidents {
+  margin-top: 14px;
+}
+
+.scp-detail__incidents-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.scp-detail__incidents-empty {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
+.scp-detail__incident-line {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px dashed var(--border-dim);
+}
+
+.scp-detail__incident-line:last-child {
+  border-bottom: 0;
+}
+
+.scp-detail__incident-line-id {
+  color: var(--accent-cyan);
+}
+
+.scp-detail__incident-line--ACTIVE {
+  color: var(--accent-red-glow);
+}
+.scp-detail__incident-line--PENDING_RESPONSE {
+  color: var(--accent-amber);
+}
+.scp-detail__incident-line--RESOLVED {
+  color: var(--accent-green);
+}
+
+.scp-detail__wiki-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scp-detail__wiki-refresh {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border: 1px solid var(--border-dim);
+  background: transparent;
+  color: var(--accent-cyan);
+  cursor: pointer;
+}
+
+.scp-detail__wiki-refresh:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.scp-detail__wiki-link {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+.scp-detail__wiki-body {
+  max-height: 220px;
+  overflow: auto;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-dim);
+  padding: 10px;
+  margin: 0;
+}
+
+.scp-detail__wiki-loading,
+.scp-detail__wiki-empty,
+.scp-detail__wiki-error {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.scp-detail__wiki-error {
+  color: var(--accent-red-glow);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes card-pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    box-shadow: 0 0 20px rgba(8, 145, 178, 0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: none;
+  }
+}

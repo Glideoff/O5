@@ -1,0 +1,44 @@
+# --- Node / Vite -----------------------------------------------------------
+node_modules
+dist
+dist-ssr
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Rust / Tauri ----------------------------------------------------------
+src-tauri/target
+src-tauri/Cargo.lock.bak
+src-tauri/gen/schemas
+
+# --- IDE -------------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- OS --------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+
+# --- OVERSEER data locales (ne JAMAIS commit la PSK AES) ------------------
+overseer.key
+overseer.sqlite
+
+# Clé privée de signature des mises à jour Tauri (NE JAMAIS committer)
+src-tauri/.tauri/
+
+# Sentry / debug artifacts
+*.dSYM/
+*.pdb

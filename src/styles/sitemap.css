@@ -1,0 +1,242 @@
+/* ==========================================================================
+   OVERSEER — Carte des Sites
+   Représentation schématique réseau Foundation (pas de carte géo réelle)
+   ========================================================================== */
+
+.sitemap-page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+}
+
+.sitemap-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.sitemap-header h1 {
+  margin: 0;
+}
+
+.sitemap-header__meta {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.sitemap-header__scan {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  background: var(--bg-panel);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sitemap-header__scan:hover:not(:disabled) {
+  background: var(--accent-cyan);
+  color: var(--bg-void);
+}
+
+.sitemap-header__scan:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ==========================================================================
+   Canvas — fond hexagonal + nodes
+   ========================================================================== */
+
+.sitemap-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  background: var(--bg-void);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  overflow: hidden;
+
+  /* Grille hexagonale très discrète en background SVG */
+  background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%231e2230' stroke-width='0.8'%3E%3Cpolyline points='0,24 14,0 42,0 56,24 42,48 14,48 0,24' /%3E%3Cpolyline points='56,24 70,0 98,0 112,24 98,48 70,48 56,24' /%3E%3C/g%3E%3C/svg%3E");
+  background-color: var(--bg-void);
+}
+
+/* SVG layer (nodes + edges) couvre tout le canvas */
+.sitemap-canvas__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Node hexagonal --- */
+
+.sitenode__shape {
+  fill: var(--bg-panel);
+  stroke: var(--accent-cyan);
+  stroke-width: 1.5;
+  transition: stroke 0.2s, fill 0.2s;
+}
+
+.sitenode--offline .sitenode__shape {
+  stroke: var(--text-muted);
+}
+
+.sitenode--alert .sitenode__shape {
+  stroke: var(--accent-amber);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.sitenode--self .sitenode__shape {
+  stroke: var(--accent-white);
+  stroke-width: 2;
+  fill: var(--bg-elevated);
+}
+
+.sitenode__label {
+  fill: var(--accent-white);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.sitenode__sub {
+  fill: var(--text-secondary);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.sitenode__dot {
+  transform-origin: center;
+}
+
+.sitenode__dot--online {
+  fill: var(--accent-green);
+}
+
+.sitenode__dot--offline {
+  fill: var(--text-muted);
+}
+
+.sitenode__dot--alert {
+  fill: var(--accent-amber);
+}
+
+.sitenode__here {
+  fill: var(--accent-white);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+/* --- Edges (lignes de connexion) --- */
+
+.sitemap-edge {
+  stroke: var(--accent-cyan);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  opacity: 0.5;
+  animation: edge-flow 4s linear infinite;
+}
+
+@keyframes edge-flow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -16;
+  }
+}
+
+/* --- Radar pendant le scan --- */
+
+.sitemap-radar {
+  pointer-events: none;
+}
+
+.sitemap-radar__sweep {
+  transform-origin: center;
+  animation: radar-sweep 2s linear infinite;
+}
+
+.sitemap-radar__ring {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 1;
+  opacity: 0.25;
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sitemap-radar__bg {
+  fill: var(--accent-cyan);
+  opacity: 0.06;
+}
+
+/* --- Detail tooltip --- */
+
+.sitemap-canvas__tooltip {
+  position: absolute;
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-primary);
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 8px rgba(8, 145, 178, 0.3);
+}
+
+.sitemap-canvas__tooltip-id {
+  color: var(--accent-cyan);
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* --- Empty / loading states --- */
+
+.sitemap-canvas__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  gap: 6px;
+}

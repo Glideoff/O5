@@ -1,0 +1,96 @@
+.update-banner {
+  grid-area: update;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border-active);
+  background: linear-gradient(90deg, #1a0000 0%, #0a0000 100%);
+  z-index: 25;
+}
+
+.update-banner--available {
+  border-bottom-color: var(--accent-red-glow);
+  box-shadow: 0 0 20px rgba(255, 40, 40, 0.15);
+}
+
+.update-banner--error {
+  border-bottom-color: var(--accent-amber);
+}
+
+.update-banner--progress {
+  justify-content: flex-start;
+}
+
+.update-banner__label {
+  color: var(--accent-red-glow);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.update-banner__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.update-banner__msg {
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.update-banner__btn {
+  border: 1px solid var(--border-active);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.update-banner__btn:hover {
+  border-color: var(--accent-red-glow);
+  color: var(--accent-white);
+}
+
+.update-banner__btn--primary {
+  background: var(--accent-red-glow);
+  color: #000;
+  border-color: var(--accent-red-glow);
+  font-weight: 700;
+}
+
+.update-banner__btn--primary:hover {
+  filter: brightness(1.1);
+}
+
+.update-banner__bar {
+  flex: 1;
+  max-width: 280px;
+  height: 6px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-dim);
+}
+
+.update-banner__bar-fill {
+  height: 100%;
+  background: var(--accent-red-glow);
+  transition: width 0.2s ease;
+}
+
+.update-banner__pct {
+  color: var(--text-muted);
+  min-width: 3ch;
+}
